@@ -3,12 +3,8 @@ const chunkController = require('../controllers/chunk-controller');
 
 const router = express.Router();
 
-router.post('/', chunkController.create);
+router.post('/', chunkController.post);
 
-router.get('/', chunkController.read);
-
-router.put('/', chunkController.update);
-
-router.delete('/', chunkController.delete);
+router.get('/', chunkController.get);
 
 module.exports = router;
