@@ -20,3 +20,13 @@ npm run prepare
 ```
 npm run dev
 ```
+
+### Build docker image
+```
+docker build . -t wildhunt-map-service
+```
+
+### Run docker image
+```
+docker run -d -p 83:80 --name wildhunt-map-service
+```

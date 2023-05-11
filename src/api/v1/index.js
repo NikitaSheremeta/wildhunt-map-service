@@ -10,8 +10,7 @@ dotenv.config();
 
 const app = express();
 
-const port = 5000;
-const serverPort = process.env.SERVER_PORT || port;
+const serverPort = 80;
 const oneCpu = 1;
 
 app.use(helmet());
@@ -33,9 +32,7 @@ const start = function startServer() {
       });
     }
   } else {
-    app.listen(serverPort, () =>
-      console.log(`Server started on port: ${serverPort}, Pid: ${process.pid}`)
-    );
+    app.listen(serverPort, () => console.log(`Server started on port: ${serverPort}, Pid: ${process.pid}`));
   }
 };
 

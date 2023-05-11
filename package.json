@@ -5,8 +5,8 @@
   "main": "src/api/v1/index.js",
   "scripts": {
     "prepare": "husky install",
-    "start": "NODE_PATH=. cross-env NODE_ENV=production node src/api/v1/index.js",
-    "dev": "NODE_PATH=. cross-env NODE_ENV=development npm run watch-node",
+    "start": "cross-env NODE_ENV=production node src/api/v1/index.js",
+    "dev": "cross-env NODE_ENV=development npm run watch-node",
     "watch-node": "nodemon",
     "eslint": "eslint --fix './**/*.js'",
     "prettier": "prettier --write './**/*.js'"
