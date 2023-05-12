@@ -1,35 +1,23 @@
-const formidable = require('formidable');
-const fs = require('fs');
-const fileHelper = require('../helpers/file-helper');
-const pathHelper = require('../helpers/path-helper');
-
-const CHUNKS_16X16_PATH = './public/assets/chunks/16x16/';
-
-const incomingForm = new formidable.IncomingForm();
+const chunkService = require('../services/chunk-service');
+const statusCodes = require('../utils/status-codes-util');
+// const fileHelper = require('../helpers/file-helper');
+// const pathHelper = require('../helpers/path-helper');
 
 class ChunkController {
   async post(req, res, next) {
     try {
-      incomingForm.parse(req, (error, fields, { file }) => {
-        if (!file) {
-          // eslint-disable-next-line no-magic-numbers
-          res.status(400);
+      const { file } = req;
 
-          res.json({
-            message: 'Bad Request'
-          });
+      const upload = await chunkService.uploadChunk(file);
 
-          return;
-        }
-
-        fs.rename(file.filepath, CHUNKS_16X16_PATH + file.originalFilename, () => {
-          // eslint-disable-next-line no-magic-numbers
-          res.status(200);
-
-          res.json({
-            message: 'OK'
-          });
+      if (!upload) {
+        return res.status(statusCodes.clientError.badRequest.code).json({
+          status: statusCodes.clientError.badRequest.status
         });
+      }
+
+      res.status(statusCodes.success.OK.code).json({
+        message: statusCodes.success.OK.status
       });
     } catch (error) {
       next(error);
@@ -38,25 +26,7 @@ class ChunkController {
 
   async get(req, res, next) {
     try {
-      const isExists = await fileHelper.exists(CHUNKS_16X16_PATH, `${req.query.name}.png`);
-
-      if (!isExists) {
-        // eslint-disable-next-line no-magic-numbers
-        res.status(404);
-
-        res.json({
-          message: 'Not Found'
-        });
-
-        return;
-      }
-
-      const rootPath = await pathHelper.root();
-
-      // eslint-disable-next-line no-magic-numbers
-      res.status(200);
-
-      res.sendFile(CHUNKS_16X16_PATH + `${req.query.name}.png`, { root: rootPath });
+      console.log('get');
     } catch (error) {
       next(error);
     }
