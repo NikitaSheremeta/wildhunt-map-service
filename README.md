@@ -41,7 +41,7 @@ POST https://map.minecraft-wildhunt.com/api/v1/chunks/
 
 Content-Type: multipart/form-data;
 
-Content-Disposition: form-data; name="item"; filename="0_1.png"
+Content-Disposition: form-data; name="chunk"; filename="0_1.png"
 
 Content-Type: image/png
 ```
