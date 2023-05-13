@@ -13,8 +13,6 @@ class FileParsingHelper {
     this.fileNameRegex = fileNameRegex;
     this.mimetypes = mimetypes;
     this.maxFileSize = maxFileSize;
-
-    this._form = formidable({});
   }
 
   set setFieldName(value) {
@@ -74,7 +72,9 @@ class FileParsingHelper {
   }
 
   parse(req, callback) {
-    this._form.parse(req, (err, fields, files) => {
+    const form = formidable({});
+
+    form.parse(req, (err, fields, files) => {
       if (err) {
         return callback(new Error(err.message));
       }

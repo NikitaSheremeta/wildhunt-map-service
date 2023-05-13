@@ -6,14 +6,14 @@ const statusCodes = require('../utils/status-codes-util');
 
 const fileParsing = new FileParsingHelper();
 
-fileParsing.setFieldName = 'chunk';
-fileParsing.setFileNameRegex = /^(\d{1,5})_(\d{1,5})$/gm;
+fileParsing.setFieldName = 'item';
+fileParsing.setFileNameRegex = /^(\d{1,5})_(\d{1,5})$/;
 fileParsing.setMimetypes = ['png'];
 fileParsing.setMaxFileSize = magicNumbers.eight_bytes;
 
 const fileUploading = new FileUploadingHelper();
 
-fileUploading.setDirectoryName = path.join('src', 'assets', 'chunks');
+fileUploading.setDirectoryName = path.join('public', 'chunks');
 
 class ChunkController {
   async post(req, res, next) {
@@ -42,16 +42,8 @@ class ChunkController {
           });
         });
       });
-    } catch (error) {
-      next(error);
-    }
-  }
-
-  async get(req, res, next) {
-    try {
-      console.log('get');
-    } catch (error) {
-      next(error);
+    } catch (err) {
+      next(err);
     }
   }
 }
