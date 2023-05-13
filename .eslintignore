@@ -34,5 +34,5 @@ build/*
 # Nuxt generate
 dist
 
-# HTML templates
-src/api/v1/templates/*.html
+# Utils
+src/api/v1/utils/magic-numbers-util.js
