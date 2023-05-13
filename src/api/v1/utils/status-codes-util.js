@@ -1,4 +1,4 @@
-module.exports = {
+module.exports = Object.freeze({
   success: {
     OK: {
       code: 200,
@@ -22,5 +22,11 @@ module.exports = {
       code: 404,
       status: 'Not Found'
     }
+  },
+  serverError: {
+    internalServerError: {
+      code: 500,
+      status: 'Internal Server Error'
+    }
   }
-};
+});

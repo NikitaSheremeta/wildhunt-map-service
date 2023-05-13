@@ -1,12 +1,14 @@
 const formidable = require('formidable');
 const path = require('path');
-
-const ALLOWED_TYPES = ['jpg', 'jpeg', 'png', 'svg'];
-const ONE_B = 1024;
-const ONE_MB = ONE_B * ONE_B;
+const magicNumbers = require('../utils/magic-numbers-util');
 
 class FileParsingHelper {
-  constructor(fieldName = 'file', fileNameRegex = null, mimetypes = ALLOWED_TYPES, maxFileSize = ONE_MB) {
+  constructor(
+    fieldName = 'file',
+    fileNameRegex = null,
+    mimetypes = ['jpg', 'jpeg', 'png', 'svg'],
+    maxFileSize = magicNumbers.one_megabyte
+  ) {
     this.fieldName = fieldName;
     this.fileNameRegex = fileNameRegex;
     this.mimetypes = mimetypes;
@@ -39,7 +41,7 @@ class FileParsingHelper {
     }
   }
 
-  _validation(files) {
+  _fileValidation(files) {
     if (Object.keys(files).length === 0) {
       return 'Field must not be empty';
     }
@@ -71,16 +73,16 @@ class FileParsingHelper {
     return '';
   }
 
-  file(req, callback) {
+  parse(req, callback) {
     this._form.parse(req, (err, fields, files) => {
       if (err) {
         return callback(new Error(err.message));
       }
 
-      const validation = this._validation(files);
+      const fileValidation = this._fileValidation(files);
 
-      if (validation) {
-        return callback(new Error(validation));
+      if (fileValidation) {
+        return callback(new Error(fileValidation));
       }
 
       return callback(null, files[this.fieldName]);
