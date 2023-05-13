@@ -1,7 +1,7 @@
 {
   "name": "wldhunt-map-service",
   "version": "1.0.0",
-  "description": "Map service",
+  "description": "Micro service for uploading and providing images of chunks of the Minecraft server map",
   "main": "src/api/v1/index.js",
   "scripts": {
     "prepare": "husky install",
@@ -28,16 +28,6 @@
     "not dead",
     "not op_mini all"
   ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/NikitaSheremeta/wildhut-map-service.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/NikitaSheremeta/wildhut-map-service/issues"
-  },
-  "homepage": "https://github.com/NikitaSheremeta/wildhut-map-service#readme",
   "devDependencies": {
     "@babel/cli": "^7.21.5",
     "@babel/core": "^7.21.8",
@@ -56,6 +46,7 @@
     "dotenv": "^16.0.3",
     "eslint": "8.22.0",
     "express": "^4.18.2",
+    "formidable": "^2.1.1",
     "fs": "^0.0.1-security",
     "helmet": "^6.1.5"
   }

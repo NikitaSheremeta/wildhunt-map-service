@@ -1,23 +1,29 @@
-const chunkService = require('../services/chunk-service');
+const FileParsingHelper = require('../helpers/file-parsing-helper');
 const statusCodes = require('../utils/status-codes-util');
-// const fileHelper = require('../helpers/file-helper');
-// const pathHelper = require('../helpers/path-helper');
+
+const fileParsingHelper = new FileParsingHelper();
+
+fileParsingHelper.setFieldName = 'chunk';
+fileParsingHelper.setFileNameRegex = /^((\d{1,5})_(\d{1,5}))$/gm;
+fileParsingHelper.setMimetypes = ['png'];
+fileParsingHelper.setMaxFileSize = 8192; // 8 bytes
 
 class ChunkController {
   async post(req, res, next) {
     try {
-      const { file } = req;
+      fileParsingHelper.file(req, (err) => {
+        if (err) {
+          return res.status(statusCodes.clientError.badRequest.code).json({
+            code: statusCodes.clientError.badRequest.code,
+            status: statusCodes.clientError.badRequest.status,
+            message: err.message
+          });
+        }
 
-      const upload = await chunkService.uploadChunk(file);
-
-      if (!upload) {
-        return res.status(statusCodes.clientError.badRequest.code).json({
-          status: statusCodes.clientError.badRequest.status
+        return res.status(statusCodes.success.OK.code).json({
+          code: statusCodes.success.OK.code,
+          status: statusCodes.success.OK.status
         });
-      }
-
-      res.status(statusCodes.success.OK.code).json({
-        message: statusCodes.success.OK.status
       });
     } catch (error) {
       next(error);
