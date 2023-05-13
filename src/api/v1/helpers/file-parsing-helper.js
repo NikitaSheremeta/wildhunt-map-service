@@ -4,20 +4,20 @@ const magicNumbers = require('../utils/magic-numbers-util');
 
 class FileParsingHelper {
   constructor(
-    fieldName = 'file',
+    parameterName = 'file',
     fileNameRegex = null,
     mimetypes = ['jpg', 'jpeg', 'png', 'svg'],
     maxFileSize = magicNumbers.one_megabyte
   ) {
-    this.fieldName = fieldName;
+    this.parameterName = parameterName;
     this.fileNameRegex = fileNameRegex;
     this.mimetypes = mimetypes;
     this.maxFileSize = maxFileSize;
   }
 
-  set setFieldName(value) {
+  set setParameterName(value) {
     if (value) {
-      this.fieldName = value;
+      this.parameterName = value;
     }
   }
 
@@ -44,27 +44,27 @@ class FileParsingHelper {
       return 'Field must not be empty';
     }
 
-    const field = files[this.fieldName];
+    const file = files[this.parameterName];
 
-    if (!field) {
-      return `Invalid field name, should be: ${this.fieldName}`;
+    if (!file) {
+      return 'Invalid parameter name';
     }
 
     if (this.fileNameRegex) {
-      const fileName = path.parse(field.originalFilename).name;
+      const fileName = path.parse(file.originalFilename).name;
 
       if (!this.fileNameRegex.test(fileName)) {
-        return `Invalid file name, should be: ${this.fileNameRegex.source}`;
+        return 'Invalid file name';
       }
     }
 
-    const fileType = field.mimetype.split('/').pop();
+    const fileType = file.mimetype.split('/').pop();
 
     if (!this.mimetypes.includes(fileType)) {
       return `Invalid file format allowed: ${this.mimetypes.join(', ')}`;
     }
 
-    if (this.maxFileSize < field.size) {
+    if (this.maxFileSize < file.size) {
       return `Invalid file size, allowed: ${this.maxFileSize} bytes`;
     }
 
@@ -85,7 +85,7 @@ class FileParsingHelper {
         return callback(new Error(fileValidation));
       }
 
-      return callback(null, files[this.fieldName]);
+      return callback(null, files[this.parameterName]);
     });
   }
 }
