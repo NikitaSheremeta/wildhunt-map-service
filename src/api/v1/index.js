@@ -9,6 +9,8 @@ const routes = require('./routes');
 
 dotenv.config();
 
+process.env.ROOT_DIRECTORY = process.cwd();
+
 const app = express();
 
 const PORT = 80;
