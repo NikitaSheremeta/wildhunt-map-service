@@ -7,6 +7,10 @@
  */
 exports.config = {
   /**
+   * Disabling the agent
+   */
+  agent_enabled: process.env.NODE_ENV === 'production',
+  /**
    * Array of application names.
    */
   app_name: ['wildhunt-map-service'],
