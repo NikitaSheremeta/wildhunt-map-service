@@ -17,7 +17,7 @@ class FileSelectionHelper {
   _fileValidation(name) {
     if (this.fileNameRegex) {
       if (!this.fileNameRegex.test(name)) {
-        return `Invalid file name`;
+        return `Invalid file name, should be: ${this.fileNameRegex}`;
       }
     }
 

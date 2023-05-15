@@ -47,21 +47,21 @@ class FileParsingHelper {
     const file = files[this.parameterName];
 
     if (!file) {
-      return 'Invalid parameter name';
+      return `Invalid parameter name, should be: ${this.parameterName}`;
     }
 
     if (this.fileNameRegex) {
       const fileName = path.parse(file.originalFilename).name;
 
       if (!this.fileNameRegex.test(fileName)) {
-        return 'Invalid file name';
+        return `Invalid file name, should be: ${this.fileNameRegex}`;
       }
     }
 
     const fileType = file.mimetype.split('/').pop();
 
     if (!this.mimetypes.includes(fileType)) {
-      return `Invalid file format allowed: ${this.mimetypes.join(', ')}`;
+      return `Invalid file format, allowed: ${this.mimetypes.join(', ')}`;
     }
 
     if (this.maxFileSize < file.size) {
