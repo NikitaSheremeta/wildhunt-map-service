@@ -2,11 +2,10 @@
   "name": "wldhunt-map-service",
   "version": "1.0.0",
   "description": "Micro service for uploading and providing images of chunks of the Minecraft server map",
-  "main": "src/api/v1/index.js",
   "scripts": {
-    "prepare": "husky install",
-    "start": "cross-env NODE_ENV=production node src/api/v1/index.js",
     "serve": "cross-env NODE_ENV=development npm run watch-node",
+    "build": "rm -rf dist && webpack --mode production",
+    "start": "cross-env NODE_ENV=production node dist/index.js",
     "watch-node": "nodemon",
     "eslint": "eslint --fix './**/*.js'",
     "prettier": "prettier --write './**/*.js'"
@@ -34,11 +33,15 @@
     "@babel/eslint-parser": "^7.21.8",
     "@babel/node": "^7.20.7",
     "@babel/preset-env": "^7.21.5",
+    "babel-loader": "^9.1.2",
     "cross-env": "^7.0.3",
     "husky": "^8.0.0",
     "lint-staged": "^13.2.2",
     "nodemon": "^2.0.22",
-    "prettier": "^2.8.8"
+    "prettier": "^2.8.8",
+    "webpack": "^5.82.1",
+    "webpack-cli": "^5.1.1",
+    "webpack-node-externals": "^3.0.0"
   },
   "dependencies": {
     "@types/cors": "^2.8.13",

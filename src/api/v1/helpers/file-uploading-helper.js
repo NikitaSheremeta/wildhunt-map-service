@@ -1,6 +1,5 @@
 const path = require('path');
 const fs = require('fs');
-const PathHelper = require('../helpers/path-helper');
 
 class FileUploadingHelper {
   constructor(directoryName = '') {
@@ -14,9 +13,7 @@ class FileUploadingHelper {
   }
 
   async upload(file, callback) {
-    const rootDirectory = await PathHelper.getRootDirectory();
-
-    const newPath = path.join(rootDirectory, this.directoryName, file.originalFilename);
+    const newPath = path.join(process.env.ROOT_DIRECTORY, this.directoryName, file.originalFilename);
 
     try {
       fs.renameSync(file.filepath, newPath);

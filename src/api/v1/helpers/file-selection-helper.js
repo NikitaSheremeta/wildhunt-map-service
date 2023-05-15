@@ -1,6 +1,4 @@
 const path = require('path');
-const PathHelper = require('./path-helper');
-
 const { access, constants } = require('node:fs/promises');
 
 class FileSelectionHelper {
@@ -31,16 +29,14 @@ class FileSelectionHelper {
       return callback(new Error(fileValidation));
     }
 
-    const rootDirectory = await PathHelper.getRootDirectory();
-
-    const chunkPath = path.join(rootDirectory, 'public', 'chunks', req.params.name);
+    const chunkPath = path.join(process.env.ROOT_DIRECTORY, 'public', 'chunks', req.params.name);
 
     try {
       await access(chunkPath, constants.R_OK | constants.W_OK);
 
       return callback(null, chunkPath);
     } catch (err) {
-      const missedChunkPath = path.join(rootDirectory, 'public', 'chunks', 'missed_chunk.png');
+      const missedChunkPath = path.join(process.env.ROOT_DIRECTORY, 'public', 'chunks', 'missed_chunk.png');
 
       return callback(null, missedChunkPath);
     }
