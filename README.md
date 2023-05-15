@@ -23,7 +23,7 @@ npm run serve
 docker build . -t wildhunt-map-service
 ```
 
-### Run docker image
+### Run docker container
 ```
 docker run -d -p 83:80 wildhunt-map-service
 ```
@@ -32,9 +32,9 @@ docker run -d -p 83:80 wildhunt-map-service
 > #### POST method: 
 > To successfully upload files, the following validation rules must be observed:
 > 1. Parameter for the file should be - **chunk**;
-> 2. File name must match the regex rule - `/^(\d{1,5})_(\d{1,5})$/`
+> 2. File name must match the regex rule - `/^(\d{1,20})$/`
 > 3. Mimetype must be only - **.png**
-> 4. File size must not exceed - **8 kilobytes**
+> 4. File size must not exceed - **12 kilobytes**
 
 ```
 POST https://map.minecraft-wildhunt.com/api/v1/chunks/
@@ -48,7 +48,7 @@ Content-Type: image/png
 
 > #### GET method:
 > In order to get a chunk image, you just need to specify the name of the required chunk, and also meet the following conditions:
-> 1. Chunk name must match the regular expression - `/^(\d{1,5})_(\d{1,5})\.(png)$/`
+> 1. Chunk name must match the regular expression - `/^(\d{1,20})\.(png)$/`
 ```
 GET https://map.minecraft-wildhunt.com/api/v1/chunks/0_1.png
 ```
