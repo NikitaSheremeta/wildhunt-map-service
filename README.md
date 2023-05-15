@@ -1,4 +1,4 @@
-# Wildhunt Map Service
+# Wildhunt map service
 
 ### Project setup
 
@@ -24,14 +24,9 @@ npm run build
 npm run start
 ```
 
-### Build docker image
+### Run docker compose (so far only production mode)
 ```
-docker build . -t wildhunt-map-service
-```
-
-### Run docker container
-```
-docker run -d -p 83:80 wildhunt-map-service
+docker-compose -f docker-compose.yml up -d
 ```
 
 ### API
@@ -47,7 +42,7 @@ POST https://map.minecraft-wildhunt.com/api/v1/chunks/
 
 Content-Type: multipart/form-data;
 
-Content-Disposition: form-data; name="chunk"; filename="0_1.png"
+Content-Disposition: form-data; name="chunk"; filename="1.png"
 
 Content-Type: image/png
 ```
@@ -56,7 +51,7 @@ Content-Type: image/png
 > In order to get a chunk image, you just need to specify the name of the required chunk, and also meet the following conditions:
 > 1. Chunk name must match the regular expression - `/^(\d{1,20})\.(png)$/`
 ```
-GET https://map.minecraft-wildhunt.com/api/v1/chunks/0_1.png
+GET https://map.minecraft-wildhunt.com/api/v1/chunks/1.png
 ```
 
 > #### Notice:
