@@ -1,0 +1,19 @@
+version: "3.9"
+services:
+  nginx:
+    container_name: nginx
+    build:
+      context: .docker/nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    restart: always
+  node:
+    container_name: node
+    build:
+      context: ./
+      dockerfile: .docker/node/Dockerfile
+    ports:
+      - "5000:5000"
+    depends_on:
+      - nginx

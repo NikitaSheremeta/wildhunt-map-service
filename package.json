@@ -2,6 +2,7 @@
   "name": "wldhunt-map-service",
   "version": "1.0.0",
   "description": "Micro service for uploading and providing images of chunks of the Minecraft server map",
+  "main": "src/api/v1/index.js",
   "scripts": {
     "serve": "cross-env NODE_ENV=development npm run watch-node",
     "build": "rm -rf dist && webpack --mode production",

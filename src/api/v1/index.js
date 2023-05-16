@@ -13,7 +13,7 @@ process.env.ROOT_DIRECTORY = process.cwd();
 
 const app = express();
 
-const PORT = 80;
+const PORT = 5000;
 
 app.use(helmet());
 app.use(express.json());
