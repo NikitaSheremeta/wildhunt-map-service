@@ -36,9 +36,7 @@ class FileSelectionHelper {
 
       return callback(null, chunkPath);
     } catch (err) {
-      const missedChunkPath = path.join(process.env.ROOT_DIRECTORY, 'public', 'chunks', 'missed_chunk.png');
-
-      return callback(null, missedChunkPath);
+      return callback(err);
     }
   }
 }

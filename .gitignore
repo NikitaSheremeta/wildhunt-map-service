@@ -123,4 +123,4 @@ dist
 .DS_Store
 
 # Chunk assets
-public/chunks/
+#public/chunks/

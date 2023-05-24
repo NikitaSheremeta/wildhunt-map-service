@@ -8,7 +8,7 @@ const statusCodes = require('../utils/status-codes-util');
 const fileParsing = new FileParsingHelper();
 
 fileParsing.setParameterName = 'chunk';
-fileParsing.setFileNameRegex = /^(\d{1,20})$/;
+fileParsing.setFileNameRegex = /^[ -]?(\d{1,19})$/;
 fileParsing.setMimetypes = ['png'];
 fileParsing.setMaxFileSize = magicNumbers.twelve_bytes;
 
@@ -18,7 +18,7 @@ fileUploading.setDirectoryName = path.join('public', 'chunks');
 
 const fileSelectionHelper = new FileSelectionHelper();
 
-fileSelectionHelper.setFileNameRegex = /^(\d{1,20})\.(png)$/;
+fileSelectionHelper.setFileNameRegex = /^[ -]?(\d{1,20})\.(png)$/;
 
 class ChunkController {
   async post(req, res, next) {
@@ -56,9 +56,10 @@ class ChunkController {
     try {
       await fileSelectionHelper.select(req, (err, filePath) => {
         if (err) {
-          return res.status(statusCodes.clientError.badRequest.code).json({
-            code: statusCodes.clientError.badRequest.code,
-            status: statusCodes.clientError.badRequest.status
+          return res.status(statusCodes.clientError.notFound.code).json({
+            code: statusCodes.clientError.notFound.code,
+            status: statusCodes.clientError.notFound.status,
+            message: err.message
           });
         }
 
