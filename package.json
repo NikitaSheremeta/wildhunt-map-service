@@ -53,6 +53,7 @@
     "formidable": "^2.1.1",
     "fs": "^0.0.1-security",
     "helmet": "^6.1.5",
+    "long": "^5.2.3",
     "newrelic": "^10.1.0"
   }
 }

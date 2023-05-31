@@ -52,19 +52,27 @@ class ChunkController {
     }
   }
 
+  // async get(req, res, next) {
+  //   try {
+  //     await fileSelectionHelper.select(req, (err, filePath) => {
+  //       if (err) {
+  //         return res.status(statusCodes.clientError.notFound.code).json({
+  //           code: statusCodes.clientError.notFound.code,
+  //           status: statusCodes.clientError.notFound.status,
+  //           message: err.message
+  //         });
+  //       }
+  //
+  //       res.status(statusCodes.success.OK.code).sendFile(filePath);
+  //     });
+  //   } catch (err) {
+  //     next(err);
+  //   }
+  // }
+
   async get(req, res, next) {
     try {
-      await fileSelectionHelper.select(req, (err, filePath) => {
-        if (err) {
-          return res.status(statusCodes.clientError.notFound.code).json({
-            code: statusCodes.clientError.notFound.code,
-            status: statusCodes.clientError.notFound.status,
-            message: err.message
-          });
-        }
-
-        res.status(statusCodes.success.OK.code).sendFile(filePath);
-      });
+      // New logic here
     } catch (err) {
       next(err);
     }

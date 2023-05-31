@@ -5,6 +5,8 @@ const router = express.Router();
 
 router.post('/', chunkController.post);
 
-router.get('/:name', chunkController.get);
+router.get('/', chunkController.get);
+
+// router.get('/:name', chunkController.get);
 
 module.exports = router;
