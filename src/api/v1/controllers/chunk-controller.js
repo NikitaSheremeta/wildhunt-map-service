@@ -77,13 +77,13 @@ class ChunkController {
     try {
       // exclude to constants, env/chunk-util.js maybe?
       const minimumBorderChunk = {
-        x: -100,
-        z: -100
+        x: -1000,
+        z: -1000
       };
 
       const maximumBorderChunk = {
-        x: 8,
-        z: 8
+        x: 1000,
+        z: 1000
       };
       //
 
