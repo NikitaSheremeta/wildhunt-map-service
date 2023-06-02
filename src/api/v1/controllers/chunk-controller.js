@@ -1,4 +1,7 @@
 const path = require('path');
+const fs = require('fs');
+const sharp = require('sharp');
+const Long = require('long');
 const FileParsingHelper = require('../helpers/file-parsing-helper');
 const FileUploadingHelper = require('../helpers/file-uploading-helper');
 const FileSelectionHelper = require('../helpers/file-selection-helper');
@@ -72,7 +75,81 @@ class ChunkController {
 
   async get(req, res, next) {
     try {
-      // New logic here
+      // exclude to constants, env/chunk-util.js maybe?
+      const minimumBorderChunk = {
+        x: -100,
+        z: -100
+      };
+
+      const maximumBorderChunk = {
+        x: 8,
+        z: 8
+      };
+      //
+
+      const centerChunk = req.body.centerChunk;
+
+      if (centerChunk == undefined || centerChunk.x === undefined || centerChunk.z === undefined) {
+        return res.status(statusCodes.clientError.badRequest.code).json({
+          code: statusCodes.clientError.badRequest.code,
+          status: statusCodes.clientError.badRequest.status,
+          message: 'Invalid data'
+        });
+      }
+
+      const normalizedCenterChunk = {
+        x: Math.min(Math.max(centerChunk.x, minimumBorderChunk.x), maximumBorderChunk.x),
+        z: Math.min(Math.max(centerChunk.z, minimumBorderChunk.z), maximumBorderChunk.z)
+      };
+
+      const normalizedMinimumChunk = {
+        x: Math.max(minimumBorderChunk.x, normalizedCenterChunk.x - 16),
+        z: Math.max(minimumBorderChunk.z, normalizedCenterChunk.z - 16)
+      };
+
+      const normalizedMaximumChunk = {
+        x: Math.min(maximumBorderChunk.x, normalizedMinimumChunk.x + 32),
+        z: Math.min(maximumBorderChunk.z, normalizedMinimumChunk.z + 32)
+      };
+
+      const excludeChunks = req.body.excludeChunks;
+      let chunkImages = [];
+
+      for (let chunkX = normalizedMinimumChunk.x; chunkX < normalizedMaximumChunk.x; ++chunkX) {
+        for (let chunkZ = normalizedMinimumChunk.z; chunkZ < normalizedMaximumChunk.z; ++chunkZ) {
+          const chunkID = new Long(chunkX).and(4294967295).or(new Long(chunkZ).and(4294967295).shiftLeft(32)).toString();
+
+          if (excludeChunks !== undefined && excludeChunks.includes(chunkID)) {
+            continue;
+          }
+
+          const chunkImagePath = path.join(process.env.ROOT_DIRECTORY, 'public', 'chunks', `${chunkID}.png`);
+
+          if (fs.existsSync(chunkImagePath)) {
+            chunkImages.push({
+              input: chunkImagePath,
+              top: (chunkZ - normalizedMinimumChunk.z) * 16,
+              left: (chunkX - normalizedMinimumChunk.x) * 16
+            });
+          }
+        }
+      }
+
+      const mapImage = await sharp({
+        create: {
+          width: 512,
+          height: 512,
+          channels: 4,
+          background: {
+            r: 0,
+            g: 0,
+            b: 0,
+            alpha: 0
+          }
+        }
+      }).png().composite(chunkImages);
+
+      return res.status(statusCodes.success.OK.code).contentType('image/png').send(await mapImage.toBuffer());
     } catch (err) {
       next(err);
     }
